@@ -206,7 +206,7 @@
             <img
               class="move_up_img move_down_img"
               v-else
-              src="./shang.png"
+              src="../assets/shang.png"
               alt
               @click="moveUp('down')"
             />
@@ -268,7 +268,7 @@
           <h3 class="transfer-title">
             <span>{{ toTitleThird || "密送人" }}</span>
             <span class="u-clear" @click="clearList(2, 'all')" v-if="move_up">清空</span>
-            <img class="move_up_img" v-else src="./shang.png" alt @click="moveUp('up')" />
+            <img class="move_up_img" v-else src="../assets/shang.png" alt @click="moveUp('up')" />
           </h3>
           <!-- 内容区 -->
           <div class="transfer-main" v-if="move_up">
@@ -298,7 +298,7 @@
 </template>
 
 <script>
-import { arrayToTree } from "./array.js";
+import { arrayToTree } from "../assets/array.js";
 export default {
   data() {
     return {
@@ -479,10 +479,20 @@ export default {
     addToAims() {
       // 获取选中通过穿梭框的keys - 仅用于传送纯净的id数组到父组件同后台通信
       let keys = this.$refs["from-tree"].getCheckedKeys();
+
+      //修改：从选中的节点中反选过滤隐藏的节点
+      keys.forEach((i,n)=>{
+        var node = this.$refs['from-tree'].getNode(i);
+        if(node.visible===false){
+          this.$refs['from-tree'].setChecked(i,false);
+        }
+      });
+
       // 获取半选通过穿梭框的keys - 仅用于传送纯净的id数组到父组件同后台通信
       let harfKeys = this.$refs["from-tree"].getHalfCheckedKeys();
       // 选中节点数据
       let arrayCheckedNodes = this.$refs["from-tree"].getCheckedNodes();
+
       // 获取选中通过穿梭框的nodes - 仅用于传送选中节点数组到父组件同后台通信需求
       let nodes = JSON.parse(JSON.stringify(arrayCheckedNodes));
       // 半选中节点数据
@@ -1037,7 +1047,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./clear.css";
+@import "../assets/clear.css";
 .el-tree {
   min-width: 100%;
   display: inline-block !important;
